@@ -1,8 +1,6 @@
 from tkinter import *
+import tkinter.messagebox as messagebox
 import psycopg2
-
-def signin():
-    check_credentials()
 
 def check_credentials():
     username = user.get()
@@ -30,8 +28,13 @@ def check_credentials():
 
         if result:
             print("Login successful!")
+
+            # If login successful, open the home page
+            open_home_page()
+
         else:
             print("Incorrect username or password!")
+            messagebox.showerror("Error", "Incorrect username or password!")
 
     except Exception as error:
         print(f"Error: {error}")
@@ -42,13 +45,23 @@ def check_credentials():
             cursor.close()
             connection.close()
 
-# Your existing code continues...
+def open_home_page():
+    import home  # Import home.py here to avoid top-level import interference
 
+    # Create a new Tkinter window for the home page
+    home_window = Toplevel(root)
 
-from tkinter import*
+    # You can customize the home page window here
+    home_window.title("Home Page")
+    home_window.geometry("800x600")
+
+    # Run the code from home.py
+    home.run(home_window)
+
 root = Tk()
-
 root.title('login')
+# ... (rest of your existing code)
+
 root.geometry('950x500+300+200')
 root.configure(bg="#DCF2F1")
 root.resizable(False,False)

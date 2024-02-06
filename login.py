@@ -1,7 +1,13 @@
 from tkinter import *
 import tkinter.messagebox as messagebox
 import psycopg2
+import subprocess
 
+def newaccount():
+    root.destroy()
+    subprocess.run(["python", "register.py"])
+
+    
 def check_credentials():
     username = user.get()
     password = code.get()
@@ -46,7 +52,7 @@ def check_credentials():
             connection.close()
 
 def open_home_page():
-    import home  # Import home.py here to avoid top-level import interference
+    import home as home  # Import home.py here to avoid top-level import interference
 
     # Create a new Tkinter window for the home page
     home_window = Toplevel(root)
@@ -115,9 +121,12 @@ code.bind('<FocusOut>', on_leave)
 Frame(frame,width=200,height=2,bg="#DCF2F1").place(x=40,y=187)
 
 Button(frame,width=28,pady=7,text='Login',bg="#0F1035",fg="#DCF2F1",border=0,command=check_credentials).place(x=40,y=234)
-label=Label(frame,text="Create a New Account",fg="#DCF2F1",bg="#365486",font=('Microsoft yaHei UI Light',10))
-label.place(x=72,y=280)
+
+Button2 = Button(frame, width=28, pady=7, text='Create a New Account', fg="#DCF2F1", bg="#365486", border=0,command=newaccount)
+Button2.place(x=40, y=274)
+
 
 login=Button(frame,width=6,text='Login',border=0,bg="#DCF2F1",cursor='hand2',fg="#0F1035",command=signin)
+
 
 root.mainloop()

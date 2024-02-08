@@ -1,56 +1,70 @@
 import tkinter as tk
-from tkinter import ttk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw, ImageOps
+
+def create_circular_image(image_path, output_path, size):
+    # Open the original image
+    original_image = Image.open(image_path)
+
+    # Resize the image if desired
+    original_image = original_image.resize((size, size), resample=Image.BICUBIC)
+
+    # Create a circular mask
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, size, size), fill=255)
+
+    # Apply the circular mask to the original image
+    circular_image = Image.new("RGBA", (size, size), (255, 255, 255, 0))
+    circular_image.paste(original_image, (0, 0), mask)
+
+    # Save the circular image
+    circular_image.save(output_path)
+
+def is_within_circle(x, y, center_x, center_y, radius):
+    return (x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2
+
+def on_canvas_click(event):
+    global search_bar
+    if is_within_circle(event.x, event.y, canvas_width // 2, canvas_height // 2, radius):
+        search_bar.pack()  # Pack the search bar when the circular image is clicked
 
 def create_home_page(parent):
-    # Function to create circular buttons with images
-    
-    def create_circular_button(canvas, x, y, image_path, command):
-        # Load and resize image
-        img = Image.open(image_path)
-        img = img.resize((50, 50), Image.LANCZOS)  # Using LANCZOS resampling method
-        photo = ImageTk.PhotoImage(img)
+    global canvas_width, canvas_height, radius, search_bar
 
-        # Draw circular shape
-        button_size = 80
-        canvas.create_oval(50, 50, 50, 50, fill="white", outline="black")
+    # Create a circular image
+    create_circular_image('dealer2.jpg', 'dealer2_circular.png', 200)
 
-        # Place resized image inside the circular button
-        canvas.create_image(x + button_size // 2, y + button_size // 2, image=photo)
+    # Load the circular image as an ImageTk object
+    image = Image.open('dealer2_circular.png')
+    image = ImageOps.fit(image, (200, 200))
+    image_tk = ImageTk.PhotoImage(image)
 
-        # Create button and bind command
-        button = tk.Button(canvas, command=command, image=photo, width=button_size, height=button_size, bd=0, bg="white")
-        button.image = photo  # Keep a reference to avoid garbage collection
-        canvas.create_window(x + button_size // 2, y + button_size // 2, window=button)
-
-    # Create Canvas widget
-    canvas = tk.Canvas(parent, width=500, height=300)
+    # Create a canvas to display the image
+    canvas_width, canvas_height = image_tk.width(), image_tk.height()
+    canvas = tk.Canvas(parent, width=canvas_width, height=canvas_height)
     canvas.pack()
 
-    # Create circular buttons with images
-    create_circular_button(canvas, 50, 50, "homeimg.png", command1)
-    create_circular_button(canvas, 200, 50, "homeimg.png", command2)
-    create_circular_button(canvas, 350, 50, "homeimg.png", command3)
-    create_circular_button(canvas, 50, 150, "homeimg.png", command4)
-    create_circular_button(canvas, 200, 150, "homeimg.png", command5)
-    create_circular_button(canvas, 350, 150, "homeimg.png", command6)
+    # Add the image to the canvas
+    canvas.create_image(canvas_width // 2, canvas_height // 2, image=image_tk)
 
-# Example command functions for buttons
-def command1():
-    print("Button 1 clicked")
+    # Retain reference to the ImageTk object
+    canvas.image = image_tk
 
-def command2():
-    print("Button 2 clicked")
+    # Bind click event to the canvas
+    canvas.bind("<Button-1>", on_canvas_click)
 
-def command3():
-    print("Button 3 clicked")
+    # Create search bar (initially hidden)
+    search_bar = tk.Entry(parent)
 
-def command4():
-    print("Button 4 clicked")
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Home Page")
 
-def command5():
-    print("Button 5 clicked")
+    # Set global variables
+    canvas_width, canvas_height, radius = 200, 200, 100
+    search_bar = None
 
-def command6():
-    print("Button 6 clicked")
+    # Create the home page
+    create_home_page(root)
 
+    root.mainloop()

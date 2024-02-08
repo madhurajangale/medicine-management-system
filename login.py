@@ -34,9 +34,10 @@ def check_credentials():
 
         if result:
             print("Login successful!")
-
+            root.destroy()
             # If login successful, open the home page
             open_home_page()
+            
 
         else:
             print("Incorrect username or password!")
@@ -53,7 +54,7 @@ def check_credentials():
 
 def open_home_page():
     import home as home  # Import home.py here to avoid top-level import interference
-
+   
     # Create a new Tkinter window for the home page
     home_window = Toplevel(root)
 
@@ -89,6 +90,7 @@ heading.place(x=36,y=20)
 def on_enter(e):
     user.delete(0, 'end')
     
+    
 def on_leave(e):
     name=user.get()
     if name=='':
@@ -104,19 +106,23 @@ user.bind('<FocusOut>', on_leave)
 Frame(frame,width=200,height=2,bg="#DCF2F1").place(x=40,y=117)
 
 
-def on_enter(e):
-    code.delete(0, 'end')
     
-def on_leave(e):
-    name=code.get()
-    if name=='':
-       code.insert(0,'password')
+def on_leave(event):
+    if code.get() == '':
+        code.config(show="")
+        code.insert(0, 'password')
 
-code=Entry(frame,width=25,fg="#DCF2F1",border=0,bg="#365486",font=('Microsoft yaHei UI Light',11))
-code.place(x=45,y=160)
-code.insert(0,'password')
-code.bind('<FocusIn>', on_enter)
+def on_key_press(event):
+    if code.get() == 'password':
+        code.delete(0, END)
+        code.config(show="*")
+
+code = Entry(frame, width=25, fg="#DCF2F1", border=0, bg="#365486", font=('Microsoft yaHei UI Light', 11))
+code.place(x=45, y=160)
+code.insert(0, 'password')
 code.bind('<FocusOut>', on_leave)
+code.bind('<Key>', on_key_press)
+
 
 Frame(frame,width=200,height=2,bg="#DCF2F1").place(x=40,y=187)
 

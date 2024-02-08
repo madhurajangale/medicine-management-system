@@ -1,7 +1,8 @@
+import tkinter
 from tkinter import *
 from dealer import create_dealer_page
 from page2 import create_stock_page
-from page3 import create_home_page
+from search import create_home_page
 
 def show_home_page():
     clear_current_page()
@@ -72,9 +73,6 @@ acc_button.pack(side="left")
 
 navbar_height = 300  # Set your desired height
 navbar.configure(height=navbar_height)
-
-
-
 
 main_frame = Frame(root, bg="#DCF2F1")
 main_frame.pack(fill="both", expand=True)

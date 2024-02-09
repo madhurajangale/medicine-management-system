@@ -3,6 +3,9 @@ from tkinter import *
 from dealer import create_dealer_page
 from page2 import create_stock_page
 from search import create_home_page
+import tkinter as tk
+from tkinter import ttk
+from PIL import Image, ImageTk
 
 def show_home_page():
     clear_current_page()
@@ -79,4 +82,23 @@ main_frame.pack(fill="both", expand=True)
 
 
 
+def set_bg_image():
+    global photo  
+    desktop_width = root.winfo_screenwidth()
+    desktop_height = root.winfo_screenheight()
+
+    
+    image = Image.open(r"dealer2.jpg")  
+    image = image.resize((desktop_width, desktop_height))
+
+    #alpha channel for opacity
+    alpha = Image.new('L', image.size, 99)  
+    image.putalpha(alpha)
+
+    photo = ImageTk.PhotoImage(image)
+    bg_label.config(image=photo)
+    bg_label.image = photo
+bg_label = tk.Label(root)
+bg_label.pack(fill="both", expand=True)
+set_bg_image()
 root.mainloop()

@@ -3,29 +3,47 @@ from psycopg2 import sql
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk, ImageFilter
+import re
 import subprocess
 
+# Function to insert data into the PostgreSQL database
 def home():
     root.destroy()
     subprocess.run(["python", "home.py"])
 
-# Function to insert data into the PostgreSQL database
 def insert_into_database():
     # Get user input from the entry fields
     name=name_entry.get()
     username = username_entry.get()
     password = password_entry.get()
     staff_id = staff_id_entry.get()
-    phone_number = phone_number_entry.get()
+    phonenumber = phonenumber_entry.get()
     email = email_entry.get()
     age = age_entry.get()
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        messagebox.showerror("Error", "Please enter a valid email address")
+        return
+
+    # Validate phone number
+    if not re.match(r"^\d{10}$", phonenumber):
+        messagebox.showerror("Error", "Please enter a 10-digit phone number")
+        return
+
+    # Validate age
+    try:
+        age = int(age)
+        if age <= 0:
+            raise ValueError
+    except ValueError:
+        messagebox.showerror("Error", "Please enter a valid age (a positive number)")
+        return
 
     try:
         # Update the following parameters with your PostgreSQL connection details
         connection = psycopg2.connect(
             database="register",
             user="postgres",
-            password="7177",
+            password="rujutamedhi@04",
             host="localhost",
             port="5432"
         )
@@ -39,7 +57,7 @@ def insert_into_database():
 	        username VARCHAR(20),
 	        password VARCHAR(255),
 	        staff_id VARCHAR(20),
-            phone_number VARCHAR(15),
+            phonenumber VARCHAR(15),
             email VARCHAR(255),
             age INTEGER
         );
@@ -48,15 +66,14 @@ def insert_into_database():
 
         # Insert data into the table
         insert_query = sql.SQL("""
-            INSERT INTO user_data (name,username, password,staff_id,phone_number, email,age)
+            INSERT INTO user_data (name,username, password,staff_id,phonenumber, email,age)
             VALUES (%s, %s, %s, %s, %s, %s, %s);
         """)
-        cursor.execute(insert_query, (name, username, password,staff_id, phone_number, email,age))
+        cursor.execute(insert_query, (name, username, password,staff_id, phonenumber, email,age))
 
         connection.commit()
         messagebox.showinfo("Welcome!", "Account created successfully")
         home()
-
     except Exception as error:
         messagebox.showerror("Error", f"An error occurred: {error}")
 
@@ -71,14 +88,17 @@ root = tk.Tk()
 root.title("User Registration")
 root.geometry('950x500+300+200')
 root.resizable(False,False)
-root.configure(bg="#DCF2F1")  # Replace "#00ff00" with your desired color code
-
-image = Image.open("login3.png")
-
+# Load the JPEG image and apply Gaussian blur filter
+image = Image.open("registerfinal.jpeg")
+#blurred_image = image.filter(ImageFilter.GaussianBlur(3))  # Adjust the blur radius as needed
+#photo = ImageTk.PhotoImage(blurred_image)
 photo = ImageTk.PhotoImage(image)
 
-
-background_label = tk.Label(root, image=photo, )
+# Keep a reference to the PhotoImage object
+#root.photo = photo
+#Label(root,image=img,bg='#DCF2F1').place(x=2,y=50)
+# Create a label to display the blurred image as the background
+background_label = tk.Label(root, image=photo)
 background_label.place(x=2, y=50)
 
 # Create a container frame
@@ -109,8 +129,8 @@ staff_id_entry = tk.Entry(container, bg=bg_color)
 staff_id_entry.grid(row=4, column=1, padx=5, pady=5, sticky="ew")
 
 tk.Label(container, text="Phone Number:", bg=label_bg_color).grid(row=5, column=0, padx=5, pady=5)
-phone_number_entry = tk.Entry(container, bg=bg_color)
-phone_number_entry.grid(row=5, column=1, padx=5, pady=5, sticky="ew")
+phonenumber_entry = tk.Entry(container, bg=bg_color)
+phonenumber_entry.grid(row=5, column=1, padx=5, pady=5, sticky="ew")
 
 tk.Label(container, text="Email:", bg=label_bg_color).grid(row=6, column=0, padx=5, pady=5)
 email_entry = tk.Entry(container, bg=bg_color)

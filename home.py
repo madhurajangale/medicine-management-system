@@ -9,30 +9,37 @@ from PIL import Image, ImageTk
 
 def show_home_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_home_page(main_frame)
 
 def show_stock_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_stock_page(main_frame)
 
 def show_dealer_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_dealer_page(main_frame)
     
 def show_cust_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_dealer_page(main_frame)
     
 def show_ord_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_dealer_page(main_frame)
     
 def show_offer_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_dealer_page(main_frame)
     
 def show_acc_page():
     clear_current_page()
+    bg_label.pack_forget() 
     create_dealer_page(main_frame)
 
 def clear_current_page():
@@ -53,25 +60,25 @@ navbar = Frame(root, bg="#365486")  # Set background color and height, replace w
 navbar.pack(side="top", fill="x")
 
 # Create buttons in the navbar
-home_button = Button(navbar, text="Search",bg="#365486",width="30",height="2",fg="#DCF2F1" , command=show_home_page)
+home_button = Button(navbar, text="Search",bg="#365486",width="18",height="2",fg="#DCF2F1",font=("Baskerville",16), command=show_home_page)
 home_button.pack(side="left")
 
-stock_button = Button(navbar, text="Stock",width="30",bg="#365486",fg="#DCF2F1",height="2" ,command=show_stock_page)
+stock_button = Button(navbar, text="Stock",bg="#365486",width="16",height="2",fg="#DCF2F1",font=("Baskerville",16),command=show_stock_page)
 stock_button.pack(side="left")
 
-cust_button = Button(navbar, text="Customers",bg="#365486",width="30",fg="#DCF2F1",height="2" , command=show_home_page)
+cust_button = Button(navbar, text="Customers",bg="#365486",width="18",height="2",fg="#DCF2F1",font=("Baskerville",16), command=show_home_page)
 cust_button.pack(side="left")
 
-deal_button = Button(navbar, text="Dealers",bg="#365486",width="30",height="2",fg="#DCF2F1" , command=show_dealer_page)
+deal_button = Button(navbar, text="Dealers",bg="#365486",width="18",height="2",fg="#DCF2F1",font=("Baskerville",16), command=show_dealer_page)
 deal_button.pack(side="left")
 
-most_button = Button(navbar, text="Most Ordered",bg="#365486",width="30",height="2",fg="#DCF2F1" , command=show_stock_page)
+most_button = Button(navbar, text="Most Ordered",bg="#365486",width="18",height="2",fg="#DCF2F1",font=("Baskerville",16),command=show_stock_page)
 most_button.pack(side="left")
 
-offers_button = Button(navbar, text="Offers",bg="#365486",width="30",height="2",fg="#DCF2F1" , command=show_stock_page)
+offers_button = Button(navbar, text="Offers",bg="#365486",width="16",height="2",fg="#DCF2F1",font=("Baskerville",16), command=show_stock_page)
 offers_button.pack(side="left")
 
-acc_button = Button(navbar, text="My Account",bg="#365486",width="30",height="2",fg="#DCF2F1" , command=show_stock_page)
+acc_button = Button(navbar, text="My Account",bg="#365486",width="18",height="2",fg="#DCF2F1",font=("Baskerville",16), command=show_stock_page)
 acc_button.pack(side="left")
 
 navbar_height = 300  # Set your desired height
@@ -88,11 +95,11 @@ def set_bg_image():
     desktop_height = root.winfo_screenheight()
 
     
-    image = Image.open(r"dealer2.jpg")  
+    image = Image.open(r"w2.png")  
     image = image.resize((desktop_width, desktop_height))
 
     #alpha channel for opacity
-    alpha = Image.new('L', image.size, 99)  
+    alpha = Image.new('L', image.size, 200)  
     image.putalpha(alpha)
 
     photo = ImageTk.PhotoImage(image)

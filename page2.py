@@ -29,7 +29,7 @@ def create_stock_page(parent):
     product_name_entry = tk.Entry(parent, textvariable=product_name_var)
     product_name_entry.pack()
 
-    # Button to add item to the database
+    # Function to add item to the database
     def add_to_database():
         try:
             connection = psycopg2.connect(
@@ -67,8 +67,42 @@ def create_stock_page(parent):
         except Exception as e:
             tk.messagebox.showerror("Error", f"Error: {str(e)}")
 
-    tk.Button(parent, text="Add to Database", command=add_to_database).pack()
+    # Function to view products
+    def view_products():
+        new_window = tk.Toplevel(parent)
+        new_window.title("View Products")
 
+        try:
+            connection = psycopg2.connect(
+                database="register",
+                user="postgres",
+                password="#Shravani2509",
+                host="localhost",
+                port="5432"
+            )
+
+            cursor = connection.cursor()
+
+            # Execute a SELECT query to retrieve all products
+            cursor.execute("SELECT * FROM products")
+            products = cursor.fetchall()
+
+            # Create a Listbox to display products
+            products_listbox = tk.Listbox(new_window, height=10, width=50)
+            products_listbox.pack(padx=10, pady=10)
+
+            # Insert products into the Listbox
+            for product in products:
+                products_listbox.insert(tk.END, f"ID: {product[0]}, Name: {product[1]}, Dealer ID: {product[2]}")
+
+            connection.close()
+
+        except Exception as e:
+            tk.messagebox.showerror("Error", f"Error: {str(e)}")
+
+    # Buttons
+    tk.Button(parent, text="Add to Database", command=add_to_database).pack()
+    tk.Button(parent, text="View Products", command=view_products).pack()
 
 if __name__ == "__main__":
     root = tk.Tk()

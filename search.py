@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw, ImageOps
+from category import create_category_page
 
 def create_circular_image(image_path, output_path, size):
     try:
@@ -33,8 +34,6 @@ def create_circular_image(image_path, output_path, size):
         print("Error creating circular image:", e)
 
 def create_home_page(parent):
-    global canvas_width, canvas_height, radius
-
     images = [
         'tablet.jpeg',
         'capsule.jpg',
@@ -43,7 +42,10 @@ def create_home_page(parent):
         'injection.jpeg',
         'others.jpeg'
     ]
-    button_texts = ["Tablets", "Capsule", "Syrup", "Cream", "Injection", "Others"]
+    button_texts = ["Tablets", "Capsules", "Syrup", "Creams", "Injections", "Others"]
+
+    # Dictionary to store frames
+    frames = {}
 
     # Create a frame to hold all the images
     main_frame = tk.Frame(parent, bg="#DCF2F1")
@@ -75,23 +77,23 @@ def create_home_page(parent):
         button = tk.Button(frame, text=button_texts[i], background="#DCF2F1", pady=10, padx=20)
         button.pack(pady=(0, 10))  # Add padding only below the button
 
-        # Bind click event to the canvas
-        canvas.bind("<Button-1>", lambda event, search_bar=button: on_canvas_click(event, search_bar))
+        # Bind click event to the button
+        button.config(command=lambda category=button_texts[i], frames=frames: on_button_click(category, frames))
 
-        # Retain reference to the ImageTk object
+        # Retain reference to the ImageTk object and frame
         canvas.image = image_tk
+        frames[button_texts[i]] = frame
 
-def on_canvas_click(event, search_bar):
-    search_bar.pack()  # Pack the search bar when the circular image is clicked
+def on_button_click(category, frames):
+    # Destroy other frames
+    for key in frames:
+        if key != category:
+            frames[key].destroy()
+
+    # Open a new window and execute code from category.py
+    create_category_page(category)
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("Home Page")
-
-    # Set global variables
-    canvas_width, canvas_height, radius = 200, 200, 100
-
-    # Create the home page
     create_home_page(root)
-
     root.mainloop()

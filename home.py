@@ -6,6 +6,7 @@ from datetime import date
 from dealer import create_dealer_page
 from page2 import create_stock_page
 from search import create_home_page
+from notify import create_notify_page
 from PIL import Image, ImageTk
 import os
 
@@ -40,7 +41,10 @@ def show_offer_page():
     create_dealer_page(main_frame)
 
 def check_expiry_today():
-    os.system('python notify.py')  # Replace with the correct command to run notify.py
+    #os.system('python notify.py')  # Replace with the correct command to run notify.py
+    clear_current_page()
+    bg_label.pack_forget() 
+    create_notify_page(main_frame)
 
 def clear_current_page():
     for widget in main_frame.winfo_children():
@@ -56,22 +60,22 @@ root.title("Navbar Example")
 navbar = Frame(root, bg="#365486")
 navbar.pack(side="top", fill="x")
 
-home_button = Button(navbar, text="Search", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
+home_button = Button(navbar, text="Search", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
 home_button.pack(side="left")
 
-stock_button = Button(navbar, text="Stock", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
+stock_button = Button(navbar, text="Stock", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
 stock_button.pack(side="left")
 
-cust_button = Button(navbar, text="Customers", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
+cust_button = Button(navbar, text="Customers", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
 cust_button.pack(side="left")
 
-deal_button = Button(navbar, text="Dealers", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_dealer_page)
+deal_button = Button(navbar, text="Dealers", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_dealer_page)
 deal_button.pack(side="left")
 
-most_button = Button(navbar, text="Most Ordered", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
+most_button = Button(navbar, text="Most Ordered", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
 most_button.pack(side="left")
 
-offers_button = Button(navbar, text="Offers", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
+offers_button = Button(navbar, text="Offers", bg="#365486", width="15", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
 offers_button.pack(side="left")
 
 check_expiry_button = Button(navbar, text="Check Expiry Today", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=check_expiry_today)

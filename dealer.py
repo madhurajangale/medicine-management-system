@@ -8,7 +8,7 @@ def create_dealer_page(parent):
             conn = psycopg2.connect(
                 database="register",
                 user="postgres",
-                password="rujutamedhi@04",
+                password="7177",
                 host="localhost",
                 port="5432"
             )
@@ -79,24 +79,24 @@ def create_dealer_page(parent):
     search_var = tk.StringVar()
     search_var.set("Search Here")
     search_var.trace_add("write", lambda name, index, mode, sv=search_var: search_dealer())
-    search_entry = ttk.Entry(search_frame, textvariable=search_var, width=20)
-    search_entry.pack(side="left", padx=(0, 5), fill="x", expand=True)
+    search_entry = ttk.Entry(search_frame, textvariable=search_var, width=40, font=("Arial", 14))  # Increase font size and width
+    search_entry.pack(side="left", padx=(0, 5), fill="x", expand=True, ipady=10)
     search_entry.bind("<FocusIn>", lambda event: search_entry.select_range(0, tk.END))
 
     # Create a frame to display search results
     result_frame = tk.Frame(parent, bg="#DCF2F1")
 
     # Create a Treeview widget
-    tree = ttk.Treeview(result_frame, columns=("Product Purchased",), show="tree")
+    tree = ttk.Treeview(result_frame, columns=("Product Purchased",), show="tree",height=10)
     tree.heading("#0", text="Dealer Name / Product Purchased")
     tree.column("#0", width=300, anchor="center")
-    tree.tag_configure("dealer", background="#0F1035",foreground="white")  # Light blue background for dealer rows
-    tree.tag_configure("product", background="#DCF2F1")
+    tree.tag_configure("dealer", background="#0F1035",foreground="white", font=("Arial", 13, "bold"))  # Font size increased for dealer rows
+    tree.tag_configure("product", background="#DCF2F1", font=("Arial", 13))
     tree.pack(padx=10, pady=10, fill="both", expand=True)
 
     # Add grid lines
     style = ttk.Style()
-    style.configure("Treeview", background="#DCF2F1", foreground="black", rowheight=25, fieldbackground="#DCF2F1")
+    style.configure("Treeview", background="#DCF2F1", foreground="black", rowheight=35, fieldbackground="#DCF2F1")
     style.map("Treeview", background=[('selected', '#365486')])
 
 # Example usage:

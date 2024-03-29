@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import psycopg2
+from datetime import datetime
 
 def create_stock_page(parent):
     label = tk.Label(parent, text="Add Items to Database", font=("Cambria", 16))
@@ -58,7 +59,7 @@ def create_stock_page(parent):
                 connection.close()
 
                 if product:
-                    fields = [ "Product Name", "Product ID","Rack No", "Expiry Date","Dealer ID", "Category",  "Units"]
+                    fields = [ "Product Name","Product id","Rack No", "Expiry Date","Dealer ID", "Category",  "Units"]
                     for i, field in enumerate(fields):
                         tk.Label(update_window, text=field + ":", font=("Cambria", 12)).grid(row=i+1, column=0, padx=10, pady=5)
                         entry = tk.Entry(update_window, font=("Cambria", 12))
@@ -70,7 +71,7 @@ def create_stock_page(parent):
                     def update_stock_in_db():
                         new_values = [entry.get() for entry in entry_fields] 
                         print("New values:", new_values)
-                        print("Product ID:", product[0]) 
+                        print("Product ID:", new_values[2]) 
                         try:
                             connection = psycopg2.connect(
                                 database="register",
@@ -80,8 +81,11 @@ def create_stock_page(parent):
                                 port="5432"
                             )
                             cursor = connection.cursor()
-                            cursor.execute("UPDATE products SET name=%s, rack_no=%s, expiry_date=%s, dealer_id=%s, category=%s, units=%s WHERE pid=%s",
-                                          (new_values[1], new_values[2], new_values[3], new_values[4], new_values[5], new_values[6], product[0]))
+                            expiry_date = new_values[3]
+        # Ensure expiry_date is properly formatted as YYYY-MM-DD
+                            expiry_date = datetime.strptime(expiry_date, '%Y-%m-%d').date()
+                            cursor.execute("UPDATE products SET name=%s, pid=%s, rack_no=%s, expiry_date=CAST(%s AS DATE), dealer_id=%s, category=%s, units=%s WHERE pid=%s",
+                                          (new_values[0], new_values[1], new_values[2], expiry_date, int(new_values[4]), new_values[5], int(new_values[6]), new_values[1]))
 
                             connection.commit()
                             connection.close()

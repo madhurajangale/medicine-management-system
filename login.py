@@ -2,13 +2,15 @@ from tkinter import *
 import tkinter.messagebox as messagebox
 import psycopg2
 import subprocess
-
+from myacc import create_myacc_page
+username = ""
 def newaccount():
     root.destroy()
     subprocess.run(["python", "register.py"])
 
     
 def check_credentials():
+    global username
     username = user.get()
     password = code.get()
 
@@ -36,8 +38,8 @@ def check_credentials():
             print("Login successful!")
             root.destroy()
             # If login successful, open the home page
-            open_home_page()
             
+            open_home_page(username)
 
         else:
             print("Incorrect username or password!")
@@ -52,18 +54,18 @@ def check_credentials():
             cursor.close()
             connection.close()
 
-def open_home_page():
+def open_home_page(username):
     import home as home  # Import home.py here to avoid top-level import interference
-   
+    print("Home page",username)
     # Create a new Tkinter window for the home page
     home_window = Toplevel(root)
-
+    
     # You can customize the home page window here
     home_window.title("Home Page")
     home_window.geometry("800x600")
 
     # Run the code from home.py
-    home.run(home_window)
+    home.run(home_window,username)
 
 root = Tk()
 root.title('login')
@@ -132,7 +134,6 @@ Button2 = Button(frame, width=28, pady=7, text='Create a New Account', fg="#DCF2
 Button2.place(x=40, y=274)
 
 
-login=Button(frame,width=6,text='Login',border=0,bg="#DCF2F1",cursor='hand2',fg="#0F1035",command=signin)
 
 
 root.mainloop()

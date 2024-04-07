@@ -10,6 +10,7 @@ from notify import check_expiry_today
 from myacc import create_myacc_page
 from PIL import Image, ImageTk
 from login import username
+from graph import check_offer_today
 import os
 
 def show_home_page():
@@ -32,9 +33,7 @@ def show_myacc_page(username):
     bg_label.pack_forget() 
     
     create_myacc_page(main_frame, username)
-
-
-    
+ 
 def show_ord_page():
     clear_current_page()
     bg_label.pack_forget() 
@@ -43,7 +42,7 @@ def show_ord_page():
 def show_offer_page():
     clear_current_page()
     bg_label.pack_forget() 
-    create_dealer_page(main_frame)
+    check_offer_today(main_frame)
 
 def show_expiry_today():
     clear_current_page()
@@ -64,29 +63,29 @@ root.title("Navbar Example")
 navbar = Frame(root, bg="#365486")
 navbar.pack(side="top", fill="x")
 
-home_button = Button(navbar, text="Search", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
+medicino_label = Label(navbar, text="Medicine Management", bg="#365486", fg="#DCF2F1", font=("Baskerville", 16))
+medicino_label.pack(side="left", padx=40)
+
+home_button = Button(navbar, text="Search", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_home_page)
 home_button.pack(side="left")
 
 stock_button = Button(navbar, text="Stock", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
 stock_button.pack(side="left")
 
-deal_button = Button(navbar, text="Dealers", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_dealer_page)
+deal_button = Button(navbar, text="Dealers", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_dealer_page)
 deal_button.pack(side="left")
 
-most_button = Button(navbar, text="Most Ordered", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
-most_button.pack(side="left")
+graph_button = Button(navbar, text="Graph", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_offer_page)
+graph_button.pack(side="left")
 
-offers_button = Button(navbar, text="Offers", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_stock_page)
-offers_button.pack(side="left")
-
-check_expiry_button = Button(navbar, text="Check Expiry Today", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_expiry_today)
+check_expiry_button = Button(navbar, text="Check Expiry Today", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_expiry_today)
 check_expiry_button.pack(side="left")
 
 
 # Assuming username is retrieved and stored in a variable called 'username'
 # Configure the "My acc" button to call show_myacc_page with the username
 u=username
-cust_button = Button(navbar, text="My account", bg="#365486", width="18", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=lambda: show_myacc_page(u))
+cust_button = Button(navbar, text="My account", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=lambda: show_myacc_page(u))
 
 cust_button.pack(side="left")
     

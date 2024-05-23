@@ -12,7 +12,7 @@ def search_elements(event=None, category=None):
             conn = psycopg2.connect(
                 dbname="register",
                 user="postgres",
-                password="rujutamedhi@04",
+                password="#Shravani2509",
                 host="localhost",
                 port="5432"
             )
@@ -57,7 +57,7 @@ def show_product_details(event):
             conn = psycopg2.connect(
                 dbname="register",
                 user="postgres",
-                password="rujutamedhi@04",
+                password="#Shravani2509",
                 host="localhost",
                 port="5432"
             )
@@ -103,7 +103,7 @@ def create_category_page(category):
 
     # Load background image
     bg_image = Image.open("w2.png")
-    bg_image = bg_image.resize((category_window.winfo_screenwidth(), category_window.winfo_screenheight()), Image.ANTIALIAS)  # Resize the image to fit the window
+    bg_image = bg_image.resize((category_window.winfo_screenwidth(), category_window.winfo_screenheight()), Image.LANCZOS)  # Resize the image to fit the window
     bg_photo = ImageTk.PhotoImage(bg_image)
 
     # Create a canvas to display the background image

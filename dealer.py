@@ -8,7 +8,7 @@ def create_dealer_page(parent):
             conn = psycopg2.connect(
                 database="register",
                 user="postgres",
-                password="7177",
+                password="#Shravani2509",
                 host="localhost",
                 port="5432"
             )

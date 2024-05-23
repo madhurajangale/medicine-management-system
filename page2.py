@@ -49,7 +49,7 @@ def create_stock_page(parent):
                 connection = psycopg2.connect(
                     database="register",
                     user="postgres",
-                    password="7177",
+                    password="#Shravani2509",
                     host="localhost",
                     port="5432"
                 )
@@ -76,7 +76,7 @@ def create_stock_page(parent):
                             connection = psycopg2.connect(
                                 database="register",
                                 user="postgres",
-                                password="7177",
+                                password="#Shravani2509",
                                 host="localhost",
                                 port="5432"
                             )
@@ -148,10 +148,10 @@ def create_stock_page(parent):
         try:
             connection = psycopg2.connect(
                 database="register",
-                user="postgres",
-                password="7177",
-                host="localhost",
-                port="5432"
+                    user="postgres",
+                    password="#Shravani2509",
+                    host="localhost",
+                    port="5432"
             )
 
             cursor = connection.cursor()
@@ -189,11 +189,11 @@ def create_stock_page(parent):
 
         try:
             connection = psycopg2.connect(
-                database="register",
-                user="postgres",
-                password="7177",
-                host="localhost",
-                port="5432"
+               database="register",
+                    user="postgres",
+                    password="#Shravani2509",
+                    host="localhost",
+                    port="5432"
             )
 
             cursor = connection.cursor()

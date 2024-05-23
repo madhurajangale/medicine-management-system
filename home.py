@@ -5,49 +5,60 @@ import psycopg2
 from datetime import date
 from dealer import create_dealer_page
 from page2 import create_stock_page
-from search import create_home_page
-from notify import check_expiry_today
 from myacc import create_myacc_page
+from search import create_home_page
+from notify import check_expiry_notifications
 from PIL import Image, ImageTk
-from login import username
-from graph import check_offer_today
-import os
 
 def show_home_page():
     clear_current_page()
     bg_label.pack_forget() 
+    # Call the function to create the home page from the search.py file
     create_home_page(main_frame)
 
 def show_stock_page():
     clear_current_page()
     bg_label.pack_forget() 
+    # Call the function to create the stock page from the page2.py file
     create_stock_page(main_frame)
 
 def show_dealer_page():
     clear_current_page()
     bg_label.pack_forget() 
+    # Call the function to create the dealer page from the dealer.py file
     create_dealer_page(main_frame)
     
 def show_myacc_page(username):
     clear_current_page()
     bg_label.pack_forget() 
-    
+    # Call the function to create the My Account page from the myacc.py file
     create_myacc_page(main_frame, username)
  
-def show_ord_page():
-    clear_current_page()
-    bg_label.pack_forget() 
-    create_dealer_page(main_frame)
-    
 def show_offer_page():
     clear_current_page()
     bg_label.pack_forget() 
-    check_offer_today(main_frame)
+    # Call the function to create the Offer page from the dealer.py file
+    #check_offer_today(main_frame)
 
 def show_expiry_today():
     clear_current_page()
     bg_label.pack_forget() 
-    check_expiry_today(main_frame)  
+    # Connect to the database
+    conn = psycopg2.connect(
+         user="postgres",
+            password="#Shravani2509",
+            host="localhost",
+            port="5432",
+            database="register"
+    )
+    cursor = conn.cursor()
+
+    # Call the function to check expiry notifications from notify.py
+    check_expiry_notifications(cursor)
+
+    # Close the cursor and connection
+    cursor.close()
+    conn.close()
 
 def clear_current_page():
     for widget in main_frame.winfo_children():
@@ -81,12 +92,10 @@ graph_button.pack(side="left")
 check_expiry_button = Button(navbar, text="Check Expiry Today", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=show_expiry_today)
 check_expiry_button.pack(side="left")
 
-
 # Assuming username is retrieved and stored in a variable called 'username'
 # Configure the "My acc" button to call show_myacc_page with the username
-u=username
+u = "your_username"  # Replace "your_username" with the actual username
 cust_button = Button(navbar, text="My account", bg="#365486", width="16", height="2", fg="#DCF2F1", font=("Baskerville", 16), command=lambda: show_myacc_page(u))
-
 cust_button.pack(side="left")
     
 navbar_height = 300
@@ -109,13 +118,6 @@ def set_bg_image():
     photo = ImageTk.PhotoImage(image)
     bg_label.config(image=photo)
     bg_label.image = photo
-    
-# In home.py
-
-
-    
-    
-
 
 bg_label = tk.Label(root)
 bg_label.pack(fill="both", expand=True)

@@ -19,7 +19,7 @@ def check_credentials():
         # Connect to the PostgreSQL database
         connection = psycopg2.connect(
             user="postgres",
-            password="7177",
+            password="#Shravani2509",
             host="localhost",
             port="5432",
             database="register"

@@ -21,11 +21,11 @@ def add_product(cursor, name, expiry_date):
     # Show a confirmation message
     messagebox.showinfo("Product Added", "Product added successfully!")
 
-def create_notify_page(parent):
+def create_notify_page(parent=None):  # Parent is None by default
     # Connect to PostgreSQL (replace with your database credentials)
     conn = psycopg2.connect(
         user="postgres",
-        password="rujutamedhi@04",
+        password="#Shravani2509",
         host="localhost",
         port="5432",
         database="register"
